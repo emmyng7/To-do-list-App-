@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import './Todo.css' 
+import './component/Todo.css' 
+import TodoList from './component/Todolist';
 
 
 function App() {
+
 
   const [input,setinput] = useState('')
 
@@ -11,17 +13,24 @@ function App() {
     return savedinputdown ? JSON.parse(savedinputdown) : [];
   });
 
+
+
+
   useEffect(() => {
     localStorage.setItem('inputdown',JSON.stringify(inputdown ))
   },[inputdown])
+
 
   function inputclick(){
     if (input.trim() === "") return;
     setinputdown([...inputdown,input])
     setinput('');
   }
+
+
+  
   function deleteitem(deletebtn) {
-    const fear = inputdown.filter((inputdown, index) => index!== deletebtn)
+    const fear = inputdown.filter((ui, index) => index!== deletebtn)
     setinputdown(fear)
   }
 
@@ -31,7 +40,6 @@ function App() {
     <>
     <div className='container'>
       <div className='card'>
-
         <h1 className='title'>  📝 To-do List</h1>
 
         <div className='div1'>
@@ -47,21 +55,11 @@ function App() {
           </div>
 
       
-          {
-            inputdown.map((ui,index)=>{
-            return <div className='map'>
-             <p key={index}>{ui}</p>
-
-              <button 
-               className='deletebtn'
-               onClick={() => deleteitem(index)}>delete
-               ❌
-              </button>
-
-             </div>
-        
-            })
-          }
+             {/* 👇 this where i move the TodoList to */}
+            <TodoList
+              inputdown={inputdown}
+              deleteitem={deleteitem}
+            />
         
         </div>
       </div>
